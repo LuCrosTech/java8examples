@@ -8,8 +8,6 @@ public class Person {
 	private int age;
 	private String password;
 
-	
-	
 	public Person(String name, int age) {
 		this.name = name;
 		this.age = age;
@@ -19,6 +17,15 @@ public class Person {
 		this.name = name;
 		this.age = age;
 		this.password = password;
+	}
+
+	public void prettyPrint() {
+		System.out.println(name + " has " + age + " years old.");
+	}
+
+	@Override
+	public String toString() {
+		return "name: " + name + ". age: " + age + ".";
 	}
 
 	public Optional<String> getName() {
