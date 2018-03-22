@@ -54,33 +54,33 @@ public class FunctorsTest {
 
 	@Test
 	public void testFuction_whenNameIsAna() {
-		Function<String, Predicate<Person>> function = name -> person -> name.equals(person.getName().get());	
+		Function<String, Predicate<Person>> function = name -> person -> name.equals(person.getNameOptional().get());	
 		Long nameAna = persons.stream().filter(function.apply("Ana")).count();
 		Assert.assertEquals(1, nameAna.longValue());
 	}
 	
 	@Test
 	public void testFuction_whenNameStartsWithC() {
-		Function<String, Predicate<Person>> function = letter -> person-> letter.equals(person.getName().get().substring(0, 1));
+		Function<String, Predicate<Person>> function = letter -> person-> letter.equals(person.getNameOptional().get().substring(0, 1));
 		Long startsWithC = persons.stream().filter(function.apply("C")).count();
 		Assert.assertEquals(2, startsWithC.longValue());
 	}
 	
 	@Test
 	public void testFuction_whenNameIsAnaPrint() {
-		Function<String, Predicate<Person>> function = name -> person -> name.equals(person.getName().get());
+		Function<String, Predicate<Person>> function = name -> person -> name.equals(person.getNameOptional().get());
 		persons.stream().filter(function.apply("Ana")).forEach(System.out::println);;
 	}
 	
 	@Test
 	public void testFuction_whenNameStartsWithCPrint() {
-		Function<String, Predicate<Person>> function = letter -> person-> letter.equals(person.getName().get().substring(0, 1));
+		Function<String, Predicate<Person>> function = letter -> person-> letter.equals(person.getNameOptional().get().substring(0, 1));
 		persons.stream().filter(function.apply("C")).forEach(Person::prettyPrint);
 	}
 	
 	@Test
 	public void testStreamReuse_whenNameStartsWithC_printAndCount() {
-		Function<String, Predicate<Person>> funcStartsWith = letter -> person -> letter.equals(person.getName().get().substring(0, 1));
+		Function<String, Predicate<Person>> funcStartsWith = letter -> person -> letter.equals(person.getNameOptional().get().substring(0, 1));
 		Supplier<Stream<Person>> personsStreamSupplier = persons::stream;
 		Long startsWithC = personsStreamSupplier.get().filter(funcStartsWith.apply("C")).count();
 		Assert.assertEquals(2, startsWithC.longValue());
@@ -92,8 +92,18 @@ public class FunctorsTest {
 	@Test
 	public void testStream_whenNameIsJose_count() {
 		System.out.println("--testStream_whenNameIsJose_count--");
-		Predicate<Person> predicateJose = person -> "Jose".equals(person.getName().get());
+		Predicate<Person> predicateJose = person -> "Jose".equals(person.getNameOptional().get());
 		Supplier<Stream<Person>> personsSS = persons::stream;
 		Assert.assertEquals(1, personsSS.get().filter(predicateJose).count());
+	}
+	
+	@Test
+	public void testGetFirstLetterOfPerson() {
+		System.out.println("--testGetFirstLetterOfPerson--");
+		Function<Person, String> getName = Person::getName;
+		Function<String, Character> getFirstLetter = name -> name.charAt(0);
+		Function<Person, Character> initial = getName.andThen(getFirstLetter);
+
+		persons.stream().map(initial).forEach(System.out::println);;
 	}
 }

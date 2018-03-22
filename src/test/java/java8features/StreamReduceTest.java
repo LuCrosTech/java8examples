@@ -38,10 +38,10 @@ public class StreamReduceTest {
 				.stream()
 				.reduce(new Person("", 0), (p1, p2) -> {
 					p1.setAge(p1.getAge().get() + p2.getAge().get());
-					p1.setName(p1.getName().get() + p2.getName().get());
+					p1.setName(p1.getNameOptional().get() + p2.getNameOptional().get());
 					return p1;
 				});
-		System.out.format("name=%s; age=%s", result.getName().get(), result.getAge().get());
+		System.out.format("name=%s; age=%s", result.getNameOptional().get(), result.getAge().get());
 	}
 	
 	@Test

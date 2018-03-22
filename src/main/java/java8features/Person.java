@@ -28,10 +28,14 @@ public class Person {
 		return "name: " + name + ". age: " + age + ".";
 	}
 
-	public Optional<String> getName() {
+	public Optional<String> getNameOptional() {
 		return Optional.ofNullable(name);
 	}
 
+	public String getName() {
+		return name;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}

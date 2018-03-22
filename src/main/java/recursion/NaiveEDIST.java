@@ -37,12 +37,33 @@ class NaiveEDIST
                 );
  }
 
+ static int thinkRecursive(String str1 , String str2 , int m ,int n)
+ {
+	 if (m == 0) {
+		 System.out.println("First string consumed");
+		 return n;
+	 }
+
+	 if (n == 0) {
+		 System.out.println("Second string consumed");
+		 return m;
+	 }
+	 
+	 if (str1.charAt(m-1) == str2.charAt(n-1))
+		 System.out.format("Str1: %s    Str2: %s    m: %s  n: %s   pointX: %s    pointY:   %s \n", str1, str2, m, n, str1.charAt(m-1), str2.charAt(n-1));
+	 else 
+		 System.out.format("Str1: %s    Str2: %s    m: %s  n: %s   pointX: %s    pointY:   %s \n", str1, str2, m, n, str1.charAt(m), str2.charAt(n-1));
+	 
+	 return thinkRecursive(str1, str2, m-1, n-1);
+   
+ }
+ 
  public static void main(String args[])
  {
-     String str1 = "sunday";
+     String str1 = "sunmey";
      String str2 = "saturday";
 
-     System.out.println( editDist( str1 , str2 , str1.length(), str2.length()) );
+     System.out.println( thinkRecursive( str1 , str2 , str1.length(), str2.length()) );
  }
 }
 /*This code is contributed by Rajat Mishra*/

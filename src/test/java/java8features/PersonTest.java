@@ -14,12 +14,12 @@ public class PersonTest {
 
 		Optional<Person> personOptional = Optional.of(person);
 
-		Optional<Optional<String>> nameOptionalWrapper = personOptional.map(Person::getName);
+		Optional<Optional<String>> nameOptionalWrapper = personOptional.map(Person::getNameOptional);
 		Optional<String> nameOptional = nameOptionalWrapper.orElseThrow(IllegalArgumentException::new);
 		String name1 = nameOptional.orElse("");
 		assertEquals("john", name1);
 
-		String name = personOptional.flatMap(Person::getName).orElse("");
+		String name = personOptional.flatMap(Person::getNameOptional).orElse("");
 		assertEquals("john", name);
 	}
 	//Map transforms values only when they are unwrapped

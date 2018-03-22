@@ -34,7 +34,7 @@ public class StreamAdvancedOperationsTest {
 	@Test
 	public void testFilterAndCollectToList() {
 		logger.info("--testFilterAndCollectToList--");
-		List<Person> filtered = persons.stream().filter(p -> p.getName().get().startsWith("P"))
+		List<Person> filtered = persons.stream().filter(p -> p.getNameOptional().get().startsWith("P"))
 				.collect(Collectors.toList());
 		// filtered.stream().forEach(System.out::println);
 		System.out.println(filtered);
@@ -44,7 +44,7 @@ public class StreamAdvancedOperationsTest {
 	@Test
 	public void testFilterAndCollectToSet() {
 		logger.info("--testFilterAndCollectToSet--");
-		Set<Person> filtered = persons.stream().filter(p -> p.getName().get().startsWith("P"))
+		Set<Person> filtered = persons.stream().filter(p -> p.getNameOptional().get().startsWith("P"))
 				.collect(Collectors.toSet());
 		// filtered.stream().forEach(System.out::println);
 		System.out.println(filtered);
@@ -82,7 +82,7 @@ public class StreamAdvancedOperationsTest {
 	@Test
 	public void testJoiningStrings() {
 		logger.info("--joiningStrings--");
-		String phrase = persons.stream().filter(p -> p.getAge().get() >= 18).map(p -> p.getName().get())
+		String phrase = persons.stream().filter(p -> p.getAge().get() >= 18).map(p -> p.getNameOptional().get())
 				.collect(Collectors.joining(" and ", "In Germany ", " are of legal age."));
 		System.out.println(phrase);
 
@@ -92,7 +92,7 @@ public class StreamAdvancedOperationsTest {
 	public void testCollectToMap() {
 		logger.info("--testCollectToMap--");
 		Map<Integer, String> map = persons.stream().collect(
-				Collectors.toMap(p -> p.getAge().get(), p -> p.getName().get(), (name1, name2) -> name1 + ";" + name2));
+				Collectors.toMap(p -> p.getAge().get(), p -> p.getNameOptional().get(), (name1, name2) -> name1 + ";" + name2));
 		System.out.println(map);
 	}
 
@@ -101,7 +101,7 @@ public class StreamAdvancedOperationsTest {
 		logger.info("--testCustomCollector--");
 
 		Collector<Person, StringJoiner, String> personNameCollector = Collector.of(() -> new StringJoiner(" | "),
-				(j, p) -> j.add(p.getName().get().toUpperCase()), (j1, j2) -> j1.merge(j2), StringJoiner::toString);
+				(j, p) -> j.add(p.getNameOptional().get().toUpperCase()), (j1, j2) -> j1.merge(j2), StringJoiner::toString);
 
 		String names = persons.stream().collect(personNameCollector);
 
@@ -120,7 +120,7 @@ public class StreamAdvancedOperationsTest {
 	
 		teams.forEach(System.out::println);
 		
-		teams.stream().flatMap( t -> t.people.stream()).forEach(p -> System.out.println(p.getName().get()));
+		teams.stream().flatMap( t -> t.people.stream()).forEach(p -> System.out.println(p.getNameOptional().get()));
 	}
 
 	@Test
@@ -134,7 +134,7 @@ public class StreamAdvancedOperationsTest {
 					.mapToObj(i -> new Person("Person " + i + " <- " + t.name, random.nextInt(35)))
 					.forEach(t.people::add))
 			.flatMap(t -> t.people.stream())
-			.forEach(p -> System.out.println(p.getName().get()));
+			.forEach(p -> System.out.println(p.getNameOptional().get()));
 	}
 
 	@Test
